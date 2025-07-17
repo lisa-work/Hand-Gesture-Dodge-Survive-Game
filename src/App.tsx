@@ -25,7 +25,7 @@ function App() {
     resetGame
   } = useGameEngine(CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  const { gesture, isLoading, error } = useHandDetection(videoRef);
+  const { gesture, isLoading, error, startDetection } = useHandDetection(videoRef);
 
   // Handle hand gesture movement
   useEffect(() => {
@@ -36,17 +36,22 @@ function App() {
 
   const handleStartGame = () => {
     setShowStartMenu(false);
+    resetGame();
     startGame();
+    startDetection();
   };
 
   const handleRestart = () => {
     resetGame();
     startGame();
+    startDetection();
   };
 
   const handleBackToMenu = () => {
+
     resetGame();
     setShowStartMenu(true);
+    startDetection();
   };
 
   const handlePause = () => {

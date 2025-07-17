@@ -79,6 +79,31 @@ const drawLandmarks = (landmarks: NormalizedLandmark[]) => {
     animationFrameId.current = requestAnimationFrame(detectHands);
   }, []);
 
+const startDetection = useCallback(() => {
+  const tryStart = () => {
+    const video = videoRef.current;
+    const modelReady = !!landmarkerRef.current;
+
+    if (
+      modelReady &&
+      video &&
+      video.readyState >= 3 &&
+      video.videoWidth > 0 &&
+      video.videoHeight > 0
+    ) {
+      // cancel previous loop
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+      detectHands();
+    } else {
+      setTimeout(tryStart, 100); // retry until ready
+    }
+  };
+
+  tryStart();
+}, [detectHands]);
+
   useEffect(() => {
     const setup = async () => {
       try {
@@ -137,9 +162,12 @@ const drawLandmarks = (landmarks: NormalizedLandmark[]) => {
     setup();
 
     return () => {
-      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+        animationFrameId.current = null;
+      }
     };
   }, [detectHands]);
 
-  return { gesture, isLoading, error };
+  return { gesture, isLoading, error, startDetection };
 };
