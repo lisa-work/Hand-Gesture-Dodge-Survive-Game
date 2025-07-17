@@ -14,24 +14,33 @@ export const useHandDetection = (videoRef: React.RefObject<HTMLVideoElement>) =>
   const landmarkerRef = useRef<HandLandmarker | null>(null);
   const animationFrameId = useRef<number | null>(null);
 
-  const drawLandmarks = (landmarks: NormalizedLandmark[]) => {
-    const canvas = document.getElementById('landmark-canvas') as HTMLCanvasElement;
-    const ctx = canvas?.getContext('2d');
-    if (!ctx || !canvas || !videoRef.current) return;
+const drawLandmarks = (landmarks: NormalizedLandmark[]) => {
+  const canvas = document.getElementById('landmark-canvas') as HTMLCanvasElement;
+  const ctx = canvas?.getContext('2d');
+  const video = videoRef.current;
 
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#00FFFF';
+  if (!ctx || !canvas || !video) return;
 
-    landmarks.forEach((landmark) => {
-      const x = landmark.x * canvas.width;
-      const y = landmark.y * canvas.height;
-      ctx.beginPath();
-      ctx.arc(x, y, 4, 0, 2 * Math.PI);
-      ctx.fill();
-    });
-  };
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#00FFFF';
+
+  ctx.save();
+  ctx.scale(-1, 1); // mirror horizontally
+  ctx.translate(-canvas.width, 0);
+
+  landmarks.forEach((landmark) => {
+    const x = landmark.x * canvas.width;
+    const y = landmark.y * canvas.height;
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  });
+
+  ctx.restore();
+};
 
   const detectHands = useCallback(async () => {
     if (!videoRef.current || !landmarkerRef.current) return;
