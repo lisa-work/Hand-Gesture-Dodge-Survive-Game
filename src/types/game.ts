@@ -1,3 +1,5 @@
+import { NormalizedLandmark } from '@mediapipe/tasks-vision';
+
 export interface GameState {
   isPlaying: boolean;
   isPaused: boolean;
@@ -29,7 +31,7 @@ export interface Obstacle {
 export interface HandGesture {
   direction: 'left' | 'right' | 'center' | null;
   confidence: number;
-  landmarks?: any[];
+  landmarks?: NormalizedLandmark[];
 }
 
 export interface GameConfig {

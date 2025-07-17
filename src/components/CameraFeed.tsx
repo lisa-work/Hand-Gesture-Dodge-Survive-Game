@@ -6,16 +6,21 @@ interface CameraFeedProps {
   gesture: HandGesture;
   isLoading: boolean;
   error: string | null;
+  videoRef: React.RefObject<HTMLVideoElement>;
 }
 
-export const CameraFeed: React.FC<CameraFeedProps> = ({ gesture, isLoading, error }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+// export const CameraFeed: React.FC<CameraFeedProps> = ({ gesture, isLoading, error }) => {
+//   const videoRef = useRef<HTMLVideoElement>(null);
+export const CameraFeed: React.FC<CameraFeedProps> = ({ gesture, isLoading, error, videoRef }) => {
 
   useEffect(() => {
     const startCamera = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { width: 320, height: 240 } 
+        // const stream = await navigator.mediaDevices.getUserMedia({ 
+        //   video: { width: 320, height: 240 } 
+        // });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: 320, height: 240 }
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -28,12 +33,15 @@ export const CameraFeed: React.FC<CameraFeedProps> = ({ gesture, isLoading, erro
     startCamera();
 
     return () => {
-      if (videoRef.current?.srcObject) {
-        const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+      // if (videoRef.current?.srcObject) {
+      //   const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+      const currentVideo = videoRef.current;
+      if (currentVideo?.srcObject) {
+        const tracks = (currentVideo.srcObject as MediaStream).getTracks();
         tracks.forEach(track => track.stop());
       }
     };
-  }, []);
+  }, [videoRef]);
 
   const getGestureIcon = () => {
     switch (gesture.direction) {
