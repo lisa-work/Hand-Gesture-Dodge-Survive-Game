@@ -2,6 +2,8 @@
 
 **Dodge & Survive** is a real-time, gesture-controlled browser game where players use their **hand movements via webcam** to dodge falling obstacles. Built using React, MediaPipe, and the HTML5 Canvas API, this project combines AI-based hand tracking with game logic for an interactive experience — no keyboard required!
 ### Live Demo: https://hand-gesture-dodge-survive-game.vercel.app/
+### Video Demo: https://www.youtube.com/watch?v=gk-fh4xINUU
+
 ---
 
 ## 🎯 Features
