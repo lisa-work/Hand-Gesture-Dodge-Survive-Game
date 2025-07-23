@@ -1,5 +1,7 @@
 import React from 'react';
 import { Play, Hand, ArrowLeft, ArrowRight } from 'lucide-react';
+import { GoGoal } from "react-icons/go";
+import { MdOutlineTipsAndUpdates } from "react-icons/md";
 
 interface StartMenuProps {
   onStart: () => void;
@@ -51,9 +53,9 @@ export const StartMenu: React.FC<StartMenuProps> = ({ onStart }) => {
         </button>
 
         {/* Tips */}
-        <div className="mt-8 text-gray-400 text-sm">
-          <p>💡 Tip: Allow camera access for hand gesture detection</p>
-          <p>🎯 Survive as long as possible to increase your score</p>
+        <div className="mt-8 text-gray-400 text-sm space-y-2">
+          <p className="flex flex-row gap-1 items-center justify-center"><MdOutlineTipsAndUpdates size={25}/> Tip: Allow camera access for hand gesture detection</p>
+          <p className="flex flex-row gap-1 items-center justify-center"><GoGoal size={25}/> Survive as long as possible to increase your score</p>
         </div>
       </div>
     </div>
