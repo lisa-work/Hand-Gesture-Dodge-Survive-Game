@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { HandGesture } from '../types/game';
 import { Camera, ArrowLeft, ArrowRight, Circle } from 'lucide-react';
 
@@ -8,17 +8,11 @@ interface CameraFeedProps {
   error: string | null;
   videoRef: React.RefObject<HTMLVideoElement>;
 }
-
-// export const CameraFeed: React.FC<CameraFeedProps> = ({ gesture, isLoading, error }) => {
-//   const videoRef = useRef<HTMLVideoElement>(null);
 export const CameraFeed: React.FC<CameraFeedProps> = ({ gesture, isLoading, error, videoRef }) => {
 
   useEffect(() => {
     const startCamera = async () => {
       try {
-        // const stream = await navigator.mediaDevices.getUserMedia({ 
-        //   video: { width: 320, height: 240 } 
-        // });
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { width: 320, height: 240 }
         });
@@ -33,8 +27,6 @@ export const CameraFeed: React.FC<CameraFeedProps> = ({ gesture, isLoading, erro
     startCamera();
 
     return () => {
-      // if (videoRef.current?.srcObject) {
-      //   const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
       const currentVideo = videoRef.current;
       if (currentVideo?.srcObject) {
         const tracks = (currentVideo.srcObject as MediaStream).getTracks();
@@ -96,7 +88,7 @@ export const CameraFeed: React.FC<CameraFeedProps> = ({ gesture, isLoading, erro
           }}
         />
 
-        {/* ✅ Canvas overlay for landmarks */}
+        {/* Canvas overlay for landmarks */}
         <canvas
           id="landmark-canvas"
           className="absolute top-0 left-0 w-full h-full pointer-events-none"
