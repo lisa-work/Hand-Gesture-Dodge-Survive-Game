@@ -75,7 +75,6 @@ export const useGameEngine = (canvasWidth: number, canvasHeight: number) => {
   }, [gameState.isPlaying, gameState.isPaused, canvasWidth]);
 
   const gameLoop = useCallback((currentTime: number) => {
-    // const deltaTime = currentTime - lastTimeRef.current;
     lastTimeRef.current = currentTime;
 
     if (!gameState.isPlaying || gameState.isPaused) return;
